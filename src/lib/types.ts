@@ -1,9 +1,4 @@
-export type Role =
-  | "regulator"
-  | "vendor"
-  | "kurir"
-  | "penerima"
-  | "penerima_manfaat";
+export type Role = "regulator" | "vendor" | "kurir" | "penerima";
 
 export type VendorStatus = "draft" | "review" | "verified" | "rejected";
 

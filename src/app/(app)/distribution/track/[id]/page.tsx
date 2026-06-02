@@ -28,6 +28,7 @@ export default function TrackPage({
 }) {
   const { id } = use(params);
   const hydrated = useHydrated();
+  const role = useStore((s) => s.role);
   const dist = useStore((s) => s.distributions.find((d) => d.id === id));
   const vendor = useStore((s) =>
     s.vendors.find((v) => v.id === dist?.vendorId)
@@ -120,37 +121,45 @@ export default function TrackPage({
             </div>
           </div>
 
-          {/* Action buttons by status */}
+          {/* Action buttons by status (hanya untuk kurir) */}
           <div className="card p-5">
             <h3 className="mb-3 font-semibold text-ink">Aksi Kurir</h3>
-            <div className="flex flex-wrap gap-3">
-              {dist.status === "scheduled" && (
-                <button
-                  onClick={() => setStatus(dist.id, "enroute")}
-                  className="btn-primary"
-                >
-                  <Truck size={16} /> Berangkatkan Kurir
-                </button>
-              )}
-              {dist.status === "enroute" && (
-                <button onClick={() => checkIn(dist.id)} className="btn-primary">
-                  <LogIn size={16} /> Check-in di Lokasi
-                </button>
-              )}
-              {dist.status === "arrived" && (
-                <button
-                  onClick={() => checkOut(dist.id)}
-                  className="btn bg-brand-600 text-white hover:bg-brand-700"
-                >
-                  <LogOut size={16} /> Check-out (Selesai)
-                </button>
-              )}
-              {dist.status === "done" && (
-                <span className="inline-flex items-center gap-2 rounded-xl bg-brand-50 px-4 py-2.5 text-sm font-semibold text-brand-700">
-                  <CheckCircle2 size={16} /> Distribusi selesai
-                </span>
-              )}
-            </div>
+            {role === "kurir" ? (
+              <div className="flex flex-wrap gap-3">
+                {dist.status === "scheduled" && (
+                  <button
+                    onClick={() => setStatus(dist.id, "enroute")}
+                    className="btn-primary"
+                  >
+                    <Truck size={16} /> Berangkatkan Kurir
+                  </button>
+                )}
+                {dist.status === "enroute" && (
+                  <button onClick={() => checkIn(dist.id)} className="btn-primary">
+                    <LogIn size={16} /> Check-in di Lokasi
+                  </button>
+                )}
+                {dist.status === "arrived" && (
+                  <button
+                    onClick={() => checkOut(dist.id)}
+                    className="btn bg-brand-600 text-white hover:bg-brand-700"
+                  >
+                    <LogOut size={16} /> Check-out (Selesai)
+                  </button>
+                )}
+                {dist.status === "done" && (
+                  <span className="inline-flex items-center gap-2 rounded-xl bg-brand-50 px-4 py-2.5 text-sm font-semibold text-brand-700">
+                    <CheckCircle2 size={16} /> Distribusi selesai
+                  </span>
+                )}
+              </div>
+            ) : (
+              <p className="rounded-xl bg-slate-50 p-3 text-sm text-slate-500">
+                Aksi check-in/check-out hanya dapat dilakukan oleh{" "}
+                <strong>Kurir</strong>. Ganti peran ke Kurir pada switcher untuk
+                memperbaruinya.
+              </p>
+            )}
 
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               <div className="rounded-xl bg-slate-50 p-3 text-sm">
@@ -171,11 +180,18 @@ export default function TrackPage({
           {/* Photo evidence */}
           <div className="card p-5">
             <h3 className="mb-3 font-semibold text-ink">Foto Bukti</h3>
-            <PhotoUpload
-              label="Upload foto makanan / serah-terima"
-              hint="JPG/PNG"
-              onPicked={(name) => addPhoto(dist.id, name)}
-            />
+            {role === "kurir" && (
+              <PhotoUpload
+                label="Upload foto makanan / serah-terima"
+                hint="JPG/PNG"
+                onPicked={(name) => addPhoto(dist.id, name)}
+              />
+            )}
+            {role !== "kurir" && dist.photos.length === 0 && (
+              <p className="rounded-xl bg-slate-50 p-3 text-sm text-slate-400">
+                Belum ada foto bukti.
+              </p>
+            )}
             {dist.photos.length > 0 && (
               <div className="mt-3 flex flex-wrap gap-2">
                 {dist.photos.map((p, i) => (

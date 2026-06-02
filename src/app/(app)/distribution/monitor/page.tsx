@@ -28,12 +28,20 @@ const STATUS_COLOR: Record<DistributionStatus, string> = {
 
 export default function MonitorPage() {
   const hydrated = useHydrated();
-  const distributions = useStore((s) => s.distributions);
+  const role = useStore((s) => s.role);
+  const actingVendorId = useStore((s) => s.actingVendorId);
+  const allDistributions = useStore((s) => s.distributions);
   const vendors = useStore((s) => s.vendors);
   const [filter, setFilter] = useState<DistributionStatus | "all">("all");
 
   if (!hydrated)
     return <div className="py-20 text-center text-slate-400">Memuat…</div>;
+
+  const isVendor = role === "vendor";
+  // Mode vendor: hanya distribusi milik vendor yang sedang diperankan
+  const distributions = isVendor
+    ? allDistributions.filter((d) => d.vendorId === actingVendorId)
+    : allDistributions;
 
   const vendorName = (id: string) =>
     vendors.find((v) => v.id === id)?.name ?? "—";
@@ -64,8 +72,12 @@ export default function MonitorPage() {
   return (
     <div>
       <PageHeader
-        title="Monitoring Distribusi"
-        desc="Pantau seluruh pengiriman makanan secara real-time."
+        title={isVendor ? "Distribusi Saya" : "Monitoring Distribusi"}
+        desc={
+          isVendor
+            ? "Pantau & lacak pengiriman dari dapur Anda."
+            : "Pantau seluruh pengiriman makanan secara real-time."
+        }
         action={
           <Link href="/distribution/new" className="btn-primary">
             + Pengiriman Baru

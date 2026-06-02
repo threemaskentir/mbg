@@ -25,11 +25,13 @@ export default function VendorProfilePage({
 }) {
   const { id } = use(params);
   const hydrated = useHydrated();
+  // Pilih array stabil dari store; filter di body (selektor tak boleh
+  // mengembalikan array baru tiap render → loop tak terbatas).
   const vendor = useStore((s) => s.vendors.find((v) => v.id === id));
-  const distributions = useStore((s) =>
-    s.distributions.filter((d) => d.vendorId === id)
-  );
-  const feedback = useStore((s) => s.feedback.filter((f) => f.vendorId === id));
+  const allDistributions = useStore((s) => s.distributions);
+  const allFeedback = useStore((s) => s.feedback);
+  const distributions = allDistributions.filter((d) => d.vendorId === id);
+  const feedback = allFeedback.filter((f) => f.vendorId === id);
 
   if (!hydrated)
     return <div className="py-20 text-center text-slate-400">Memuat…</div>;

@@ -17,6 +17,7 @@ import {
   SEED_FEEDBACK,
 } from "@/lib/data/seed";
 import { analyzeSentiment, isComplaint } from "@/lib/sim/sentiment";
+import { ROLE_ORDER } from "@/lib/roles";
 
 interface MBGState {
   role: Role;
@@ -206,6 +207,14 @@ export const useStore = create<MBGState>()(
       // di klien → menyebabkan mismatch dengan HTML server). Rehydrate manual
       // setelah mount via <StoreHydrator />.
       skipHydration: true,
+      // Sanitasi state ter-persist: peran lama yang sudah dihapus (mis.
+      // "penerima_manfaat") dikoreksi ke "regulator" agar tidak crash.
+      merge: (persisted, current) => {
+        const p = (persisted ?? {}) as Partial<MBGState>;
+        const role: Role =
+          p.role && ROLE_ORDER.includes(p.role) ? p.role : "regulator";
+        return { ...current, ...p, role };
+      },
     }
   )
 );

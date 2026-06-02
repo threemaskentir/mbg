@@ -76,6 +76,30 @@ vercel --prod        # deploy production
 PWA & service worker aktif otomatis di hasil deploy (HTTPS) — aplikasi dapat
 di-*install* dan app-shell tersedia offline.
 
+## Deploy ke Netlify (free)
+
+Sudah disiapkan [`netlify.toml`](netlify.toml): build pakai `npm run build`
+(webpack, agar PWA jalan) + Next Runtime resmi (`@netlify/plugin-nextjs`).
+
+**Cara 1 — via Git (paling mudah):**
+1. Push project ini ke GitHub/GitLab.
+2. Buka [app.netlify.com](https://app.netlify.com) → **Add new site → Import an existing project**.
+3. Pilih repo. Netlify membaca `netlify.toml` otomatis (build `npm run build`,
+   plugin Next.js terpasang sendiri). Klik **Deploy**.
+
+**Cara 2 — via CLI:**
+```bash
+npm i -g netlify-cli
+netlify login
+netlify init        # tautkan/buat site baru
+netlify deploy --build            # deploy preview
+netlify deploy --build --prod     # deploy production
+```
+
+Catatan: gunakan **Next Runtime** (serverful), bukan static export — beberapa
+route dinamis (`track/[id]`, `feedback/[id]`, `vendor/profile/[id]`) di-render
+on-demand. PWA aktif otomatis di hasil deploy (HTTPS).
+
 ## Audit Lighthouse (desktop, build produksi)
 
 | Performance | Accessibility | Best Practices | SEO |

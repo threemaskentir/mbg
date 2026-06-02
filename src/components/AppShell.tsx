@@ -65,8 +65,8 @@ const NAV: NavGroup[] = [
   {
     group: "Penerima",
     items: [
-      { href: "/penerima/konfirmasi", label: "Konfirmasi Kiriman", icon: PackageCheck, roles: ["penerima", "penerima_manfaat"] },
-      { href: "/penerima/feedback", label: "Feedback", icon: MessageSquareHeart, roles: ["penerima", "penerima_manfaat"] },
+      { href: "/penerima/konfirmasi", label: "Konfirmasi Kiriman", icon: PackageCheck, roles: ["penerima"] },
+      { href: "/penerima/feedback", label: "Feedback", icon: MessageSquareHeart, roles: ["penerima"] },
     ],
   },
 ];
@@ -131,6 +131,24 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <p className="mt-2 px-1 text-[11px] leading-snug text-slate-400">
               {ROLE_DESC[role]}
             </p>
+            {role === "vendor" && (
+              <div className="mt-3">
+                <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                  Bertindak sebagai
+                </p>
+                <select
+                  className="input py-2 text-sm"
+                  value={actingVendorId}
+                  onChange={(e) => setActingVendor(e.target.value)}
+                >
+                  {vendors.map((v) => (
+                    <option key={v.id} value={v.id}>
+                      {v.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
           </div>
 
           <nav className="flex-1 space-y-5 overflow-y-auto px-3 py-2">

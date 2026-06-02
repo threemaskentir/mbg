@@ -31,6 +31,8 @@ const MENUS = [
 export default function NewDistributionPage() {
   const hydrated = useHydrated();
   const router = useRouter();
+  const role = useStore((s) => s.role);
+  const actingVendorId = useStore((s) => s.actingVendorId);
   const vendors = useStore((s) => s.vendors);
   const addDistribution = useStore((s) => s.addDistribution);
 
@@ -45,12 +47,16 @@ export default function NewDistributionPage() {
   if (!hydrated)
     return <div className="py-20 text-center text-slate-400">Memuat…</div>;
 
-  const valid = vendorId && courier && portions > 0;
+  const isVendor = role === "vendor";
+  const actingVendor = vendors.find((v) => v.id === actingVendorId);
+  // Mode vendor: terkunci ke dapur sendiri
+  const effectiveVendorId = isVendor ? actingVendorId : vendorId;
+  const valid = effectiveVendorId && courier && portions > 0;
 
   function submit() {
     const d = DESTINATIONS[destIdx];
     const id = addDistribution({
-      vendorId,
+      vendorId: effectiveVendorId,
       destination: d.name,
       destinationType: d.type,
       address: d.address,
@@ -83,18 +89,33 @@ export default function NewDistributionPage() {
         <div className="card space-y-4 p-6">
           <div>
             <label className="label">Vendor</label>
-            <select
-              className="input"
-              value={vendorId}
-              onChange={(e) => setVendorId(e.target.value)}
-            >
-              <option value="">— Pilih vendor terverifikasi —</option>
-              {verified.map((v) => (
-                <option key={v.id} value={v.id}>
-                  {v.name} ({v.city})
-                </option>
-              ))}
-            </select>
+            {isVendor ? (
+              <div className="flex items-center gap-3 rounded-xl border border-line bg-slate-50 px-3.5 py-2.5">
+                <span
+                  className="grid h-8 w-8 shrink-0 place-items-center rounded-lg text-xs font-bold text-white"
+                  style={{ background: actingVendor?.color ?? "#059669" }}
+                >
+                  {(actingVendor?.name ?? "VN").slice(0, 2).toUpperCase()}
+                </span>
+                <span className="text-sm font-medium text-ink">
+                  {actingVendor?.name ?? "—"}
+                </span>
+                <span className="ml-auto text-xs text-slate-400">dapur Anda</span>
+              </div>
+            ) : (
+              <select
+                className="input"
+                value={vendorId}
+                onChange={(e) => setVendorId(e.target.value)}
+              >
+                <option value="">— Pilih vendor terverifikasi —</option>
+                {verified.map((v) => (
+                  <option key={v.id} value={v.id}>
+                    {v.name} ({v.city})
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
 
           <div>

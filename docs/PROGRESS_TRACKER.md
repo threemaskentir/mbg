@@ -100,6 +100,8 @@
 | 2026-06-02 | Scaffold mockup dibuat (Next.js 16 + Tailwind v4 + Zustand). 5 modul + 11 route, `npm run build` hijau. Peta diimplementasikan sebagai SVG kustom (bukan Leaflet); komponen UI memakai CSS classes (bukan shadcn). |
 | 2026-06-02 | Fix hydration mismatch (Zustand persist `skipHydration` + `StoreHydrator`). |
 | 2026-06-02 | Fase 6: offline fallback + halaman 404, audit Lighthouse (100/95/100/100), konfigurasi deploy Vercel (`vercel.json`). |
+| 2026-06-02 | Fix Role Switcher: nav difilter per peran + auto-navigasi; `suppressHydrationWarning` untuk atribut ekstensi browser. |
+| 2026-06-02 | Restrukturisasi peran → 5 peran (Regulator, Vendor, Kurir, Penerima, Penerima Manfaat) dengan akses spesifik. Fitur baru: konsol Kurir (check-in/out), "Konfirmasi Kiriman Sampai" + halaman Feedback penerima, scoping Vendor ke dapur sendiri (acting vendor). |
 
 ## Blocker Aktif
 _Tidak ada._

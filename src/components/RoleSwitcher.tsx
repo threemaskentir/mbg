@@ -5,7 +5,6 @@ import {
   Bike,
   ShieldCheck,
   Users,
-  HeartHandshake,
   ChevronDown,
   type LucideIcon,
 } from "lucide-react";
@@ -21,14 +20,15 @@ const ICON: Record<Role, LucideIcon> = {
   vendor: Store,
   kurir: Bike,
   penerima: Users,
-  penerima_manfaat: HeartHandshake,
 };
 
 export function RoleSwitcher() {
   const router = useRouter();
-  const role = useStore((s) => s.role);
+  const rawRole = useStore((s) => s.role);
   const setRole = useStore((s) => s.setRole);
   const [open, setOpen] = useState(false);
+  // Tahan banting bila state ter-persist berisi peran lama yang sudah dihapus
+  const role: Role = ICON[rawRole] ? rawRole : "regulator";
   const CurrentIcon = ICON[role];
 
   function pick(r: Role) {

@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Next Runtime resmi Netlify — menangani SSR & route dinamis Next.js, serta
+# MENGATUR publish directory secara otomatis. Jangan set `publish` manual
+# (mis. ".next") karena akan menyajikan build mentah → semua route 404.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
