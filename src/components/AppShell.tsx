@@ -11,6 +11,7 @@ import {
   PackageCheck,
   MessageSquareHeart,
   Bike,
+  Camera,
   Gauge,
   ShieldCheck,
   BarChart3,
@@ -45,6 +46,7 @@ const NAV: NavGroup[] = [
       { href: "/vendor/dashboard", label: "Dashboard Vendor", icon: LayoutDashboard, roles: ["regulator"] },
       { href: "/admin/verification", label: "Verifikasi Vendor", icon: ShieldCheck, roles: ["regulator"] },
       { href: "/distribution/monitor", label: "Monitoring Distribusi", icon: Truck, roles: ["regulator"] },
+      { href: "/vendor/kitchen", label: "Analisis Dapur (AI)", icon: Camera, roles: ["regulator"] },
       { href: "/admin/analytics", label: "Analitik & Feedback", icon: BarChart3, roles: ["regulator"] },
     ],
   },
@@ -54,6 +56,7 @@ const NAV: NavGroup[] = [
       { href: "/vendor/register", label: "Registrasi Vendor", icon: FilePlus2, roles: ["vendor"] },
       { href: "/distribution/new", label: "Input Pengiriman", icon: PackagePlus, roles: ["vendor"] },
       { href: "/distribution/monitor", label: "Distribusi Saya", icon: Truck, roles: ["vendor"] },
+      { href: "/vendor/kitchen", label: "Analisis Dapur (AI)", icon: Camera, roles: ["vendor"] },
     ],
   },
   {

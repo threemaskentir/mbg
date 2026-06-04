@@ -11,12 +11,13 @@ import {
   FileCheck2,
   FileX2,
   ShieldQuestion,
+  Camera,
 } from "lucide-react";
 import { PageHeader } from "@/components/AppShell";
-import { VendorStatusBadge, DistStatusBadge } from "@/components/badges";
+import { VendorStatusBadge, DistStatusBadge, SimTag } from "@/components/badges";
 import { StarRating } from "@/components/StarRating";
 import { useStore, useHydrated } from "@/lib/store";
-import { formatNumber, formatDate } from "@/lib/utils";
+import { formatNumber, formatDate, cn } from "@/lib/utils";
 
 export default function VendorProfilePage({
   params,
@@ -30,6 +31,7 @@ export default function VendorProfilePage({
   const vendor = useStore((s) => s.vendors.find((v) => v.id === id));
   const allDistributions = useStore((s) => s.distributions);
   const allFeedback = useStore((s) => s.feedback);
+  const kitchen = useStore((s) => s.kitchenScans[id]);
   const distributions = allDistributions.filter((d) => d.vendorId === id);
   const feedback = allFeedback.filter((f) => f.vendorId === id);
 
@@ -112,6 +114,42 @@ export default function VendorProfilePage({
           )}
         </div>
       </div>
+
+      {/* Kitchen AI summary */}
+      <Link
+        href="/vendor/kitchen"
+        className="card mt-6 flex flex-wrap items-center gap-4 p-5 transition hover:bg-slate-50"
+      >
+        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-sky-50 text-sky-600">
+          <Camera size={22} />
+        </span>
+        <div className="min-w-0">
+          <p className="flex items-center gap-2 font-semibold text-ink">
+            Analisis Dapur (AI) <SimTag label="AI" />
+          </p>
+          <p className="text-xs text-slate-400">
+            {kitchen
+              ? `${kitchen.staffCount} karyawan • kebersihan ${kitchen.cleanliness}% • APD masker ${kitchen.apd.mask}%`
+              : "Belum ada hasil analisis kamera dapur."}
+          </p>
+        </div>
+        {kitchen && (
+          <span
+            className={cn(
+              "ml-auto rounded-xl px-3 py-2 text-center text-sm font-bold",
+              kitchen.status === "baik"
+                ? "bg-brand-100 text-brand-700"
+                : kitchen.status === "perhatian"
+                ? "bg-amber-100 text-amber-700"
+                : "bg-rose-100 text-rose-700"
+            )}
+          >
+            {kitchen.overallScore}
+            <span className="block text-[10px] font-medium">skor</span>
+          </span>
+        )}
+        <span className="text-sm font-semibold text-brand-700">Buka →</span>
+      </Link>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
         {/* Documents */}

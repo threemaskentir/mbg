@@ -56,6 +56,30 @@ export interface Distribution {
   events: DistributionEvent[];
 }
 
+export interface KitchenDetection {
+  id: string;
+  x: number; // 0..1 (kiri)
+  y: number; // 0..1 (atas)
+  w: number; // 0..1
+  h: number; // 0..1
+  mask: boolean; // pakai masker
+  gloves: boolean; // pakai sarung tangan
+  hairnet: boolean; // pakai penutup kepala
+  conf: number; // 0..1
+}
+
+export interface KitchenAnalysis {
+  at: string;
+  staffCount: number;
+  cleanliness: number; // 0..100
+  tidiness: number; // 0..100 (kerapihan)
+  apd: { mask: number; gloves: number; hairnet: number }; // % kepatuhan
+  overallScore: number; // 0..100
+  status: "baik" | "perhatian" | "buruk";
+  violations: string[];
+  detections: KitchenDetection[];
+}
+
 export type Sentiment = "positive" | "neutral" | "negative";
 
 export interface Feedback {

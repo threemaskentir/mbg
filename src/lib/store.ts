@@ -10,11 +10,13 @@ import type {
   Role,
   VendorStatus,
   DistributionStatus,
+  KitchenAnalysis,
 } from "@/lib/types";
 import {
   SEED_VENDORS,
   SEED_DISTRIBUTIONS,
   SEED_FEEDBACK,
+  SEED_KITCHEN,
 } from "@/lib/data/seed";
 import { analyzeSentiment, isComplaint } from "@/lib/sim/sentiment";
 import { ROLE_ORDER } from "@/lib/roles";
@@ -25,9 +27,11 @@ interface MBGState {
   vendors: Vendor[];
   distributions: Distribution[];
   feedback: Feedback[];
+  kitchenScans: Record<string, KitchenAnalysis>;
 
   setRole: (r: Role) => void;
   setActingVendor: (id: string) => void;
+  setKitchenScan: (vendorId: string, analysis: KitchenAnalysis) => void;
   resetData: () => void;
 
   addVendor: (v: Omit<Vendor, "id" | "createdAt" | "status" | "rating"> & {
@@ -67,15 +71,21 @@ export const useStore = create<MBGState>()(
       vendors: SEED_VENDORS,
       distributions: SEED_DISTRIBUTIONS,
       feedback: SEED_FEEDBACK,
+      kitchenScans: SEED_KITCHEN,
 
       setRole: (role) => set({ role }),
       setActingVendor: (actingVendorId) => set({ actingVendorId }),
+      setKitchenScan: (vendorId, analysis) =>
+        set((s) => ({
+          kitchenScans: { ...s.kitchenScans, [vendorId]: analysis },
+        })),
 
       resetData: () =>
         set({
           vendors: SEED_VENDORS,
           distributions: SEED_DISTRIBUTIONS,
           feedback: SEED_FEEDBACK,
+          kitchenScans: SEED_KITCHEN,
         }),
 
       addVendor: (v) => {

@@ -1,4 +1,10 @@
-import type { Vendor, Distribution, Feedback, VendorDoc } from "@/lib/types";
+import type {
+  Vendor,
+  Distribution,
+  Feedback,
+  VendorDoc,
+  KitchenAnalysis,
+} from "@/lib/types";
 
 const now = Date.now();
 const iso = (offsetMin: number) => new Date(now + offsetMin * 60000).toISOString();
@@ -233,3 +239,58 @@ export const SEED_FEEDBACK: Feedback[] = FB.map((f, i) => ({
   isComplaint: f.complaint,
   createdAt: iso(f.offset),
 }));
+
+function kitchen(
+  staff: number,
+  cleanliness: number,
+  tidiness: number,
+  maskPct: number,
+  glovesPct: number,
+  hairnetPct: number,
+  offsetMin: number
+): KitchenAnalysis {
+  const within = (i: number, pct: number) => i < Math.round((staff * pct) / 100);
+  const detections = [...Array(staff)].map((_, i) => ({
+    id: `det-${i + 1}`,
+    x: 0.05 + i * 0.18,
+    y: 0.3,
+    w: 0.15,
+    h: 0.42,
+    mask: within(i, maskPct),
+    gloves: within(i, glovesPct),
+    hairnet: within(i, hairnetPct),
+    conf: 0.9,
+  }));
+  const apdAvg = (maskPct + glovesPct + hairnetPct) / 3;
+  const overallScore = Math.round(
+    cleanliness * 0.35 + tidiness * 0.25 + apdAvg * 0.4
+  );
+  const status: KitchenAnalysis["status"] =
+    overallScore >= 85 ? "baik" : overallScore >= 70 ? "perhatian" : "buruk";
+  const noMask = detections.filter((d) => !d.mask).length;
+  const noGloves = detections.filter((d) => !d.gloves).length;
+  const noHairnet = detections.filter((d) => !d.hairnet).length;
+  const violations: string[] = [];
+  if (noMask) violations.push(`${noMask} karyawan tidak memakai masker`);
+  if (noGloves) violations.push(`${noGloves} karyawan tanpa sarung tangan`);
+  if (noHairnet) violations.push(`${noHairnet} karyawan tanpa penutup kepala`);
+  if (cleanliness < 75) violations.push("Kebersihan area di bawah standar");
+  if (tidiness < 70) violations.push("Area kerja kurang rapi / berantakan");
+  return {
+    at: iso(offsetMin),
+    staffCount: staff,
+    cleanliness,
+    tidiness,
+    apd: { mask: maskPct, gloves: glovesPct, hairnet: hairnetPct },
+    overallScore,
+    status,
+    violations,
+    detections,
+  };
+}
+
+export const SEED_KITCHEN: Record<string, KitchenAnalysis> = {
+  "VND-001": kitchen(4, 92, 88, 100, 75, 100, -60 * 6),
+  "VND-002": kitchen(6, 80, 78, 83, 67, 83, -60 * 10),
+  "VND-006": kitchen(3, 95, 94, 100, 100, 100, -60 * 3),
+};
