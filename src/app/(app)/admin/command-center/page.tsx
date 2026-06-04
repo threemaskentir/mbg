@@ -8,15 +8,51 @@ import {
   AlertTriangle,
   Star,
   Soup,
+  Users,
+  Salad,
+  ShieldCheck,
+  HeartPulse,
+  Wallet,
+  Smile,
+  Clock,
+  BadgeCheck,
+  ShieldAlert,
+  Trash2,
+  Database,
+  Target,
 } from "lucide-react";
 import { PageHeader } from "@/components/AppShell";
 import { KpiCard } from "@/components/KpiCard";
+import { MetricCard, type Metric } from "@/components/MetricCard";
 import { MapCanvas, type MapMarker } from "@/components/MapCanvas";
 import { TrendArea, SentimentDonut } from "@/components/charts";
 import { SentimentBadge } from "@/components/badges";
 import { StarRating } from "@/components/StarRating";
 import { useStore, useHydrated } from "@/lib/store";
 import { formatNumber, timeAgo } from "@/lib/utils";
+
+// KPI dampak program (stakeholder) — capaian vs target nasional (data demo)
+const STAKEHOLDER_KPI: Metric[] = [
+  { label: "Penerima manfaat aktif", value: "99,3%", target: "≥ 99% target nasional", icon: Users, progress: 99.3 },
+  { label: "Ketepatan distribusi makanan", value: "99,4%", target: "≥ 99%", icon: Truck, progress: 99.4 },
+  { label: "Kepatuhan standar gizi", value: "98,6%", target: "≥ 98%", icon: Salad, progress: 98.6 },
+  { label: "Food safety", value: "100%", target: "100%", icon: ShieldCheck, progress: 100 },
+  { label: "Food poisoning outbreak", value: "0 kasus", target: "0 kasus", icon: HeartPulse },
+  { label: "Serapan anggaran", value: "97,8%", target: "95% – 100%", icon: Wallet, progress: 97.8 },
+  { label: "Kepuasan penerima manfaat", value: "92,4%", target: "≥ 90%", icon: Smile, progress: 92.4 },
+];
+
+// KPI dampak platform (penyedia solusi) — capaian vs target (data demo)
+const PLATFORM_KPI: Metric[] = [
+  { label: "Waktu perizinan vendor", value: "72%", target: "turun ≥ 70%", icon: Clock, trend: "down" },
+  { label: "Vendor bersertifikasi wajib", value: "97,5%", target: "min. 97%", icon: BadgeCheck, progress: 97.5 },
+  { label: "Insiden kualitas makanan", value: "54%", target: "turun ≥ 50%", icon: ShieldAlert, trend: "down" },
+  { label: "Food waste", value: "33%", target: "turun ≥ 30%", icon: Trash2, trend: "down" },
+  { label: "Partisipasi UMKM lokal", value: "43%", target: "naik ≥ 40%", icon: Store, trend: "up" },
+  { label: "Kecepatan respon pengaduan", value: "18 jam", target: "< 24 jam", icon: Clock },
+  { label: "Akurasi data monitoring nasional", value: "95,6%", target: "≥ 95%", icon: Database, progress: 95.6 },
+  { label: "Kepuasan penerima manfaat", value: "90,8%", target: "≥ 90%", icon: Smile, progress: 90.8 },
+];
 
 export default function CommandCenterPage() {
   const hydrated = useHydrated();
@@ -143,7 +179,7 @@ export default function CommandCenterPage() {
               </span>
             </div>
           </div>
-          <MapCanvas markers={markers} height="h-[340px]" />
+          <MapCanvas markers={markers} cluster height="h-[340px]" />
         </div>
 
         <div className="card p-5">
@@ -197,6 +233,30 @@ export default function CommandCenterPage() {
             </div>
           )}
         </div>
+      </div>
+
+      {/* KPI dampak program (stakeholder) */}
+      <div className="mt-8 flex items-center gap-2">
+        <Target size={18} className="text-brand-600" />
+        <h2 className="text-lg font-bold text-ink">KPI Program (Stakeholder)</h2>
+        <span className="text-xs text-slate-400">capaian vs target nasional</span>
+      </div>
+      <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {STAKEHOLDER_KPI.map((m) => (
+          <MetricCard key={m.label} {...m} />
+        ))}
+      </div>
+
+      {/* KPI dampak platform (penyedia solusi) */}
+      <div className="mt-8 flex items-center gap-2">
+        <Activity size={18} className="text-brand-600" />
+        <h2 className="text-lg font-bold text-ink">KPI Platform (Penyedia Solusi)</h2>
+        <span className="text-xs text-slate-400">dampak digitalisasi MBG</span>
+      </div>
+      <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {PLATFORM_KPI.map((m) => (
+          <MetricCard key={m.label} {...m} />
+        ))}
       </div>
     </div>
   );

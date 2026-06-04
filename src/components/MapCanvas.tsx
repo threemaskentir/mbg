@@ -21,6 +21,7 @@ interface LatLng {
 export interface MapCanvasProps {
   markers: MapMarker[];
   route?: { from: LatLng; to: LatLng; animate?: boolean; progress?: number };
+  cluster?: boolean;
   height?: string;
   onMarkerClick?: (id: string) => void;
   className?: string;
@@ -38,6 +39,7 @@ const LeafletMap = dynamic(
 export function MapCanvas({
   markers,
   route,
+  cluster,
   height = "h-80",
   onMarkerClick,
   className,
@@ -50,7 +52,12 @@ export function MapCanvas({
         className
       )}
     >
-      <LeafletMap markers={markers} route={route} onMarkerClick={onMarkerClick} />
+      <LeafletMap
+        markers={markers}
+        route={route}
+        cluster={cluster}
+        onMarkerClick={onMarkerClick}
+      />
     </div>
   );
 }

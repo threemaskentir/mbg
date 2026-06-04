@@ -111,7 +111,7 @@ export default function MonitorPage() {
               ))}
             </div>
           </div>
-          <MapCanvas markers={markers} height="h-[360px]" />
+          <MapCanvas markers={markers} cluster height="h-[360px]" />
         </div>
 
         {/* List */}

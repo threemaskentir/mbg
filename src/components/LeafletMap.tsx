@@ -11,6 +11,8 @@ import {
 } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import "leaflet.markercluster";
+import "leaflet.markercluster/dist/MarkerCluster.css";
 import type { MapMarker } from "@/components/MapCanvas";
 
 interface LatLng {
@@ -28,6 +30,7 @@ interface RouteSpec {
 interface Props {
   markers: MapMarker[];
   route?: RouteSpec;
+  cluster?: boolean; // gabungkan titik berdekatan (mode regulator)
   onMarkerClick?: (id: string) => void;
 }
 
@@ -101,7 +104,61 @@ function FitBounds({ points }: { points: Pt[] }) {
   return null;
 }
 
-export function LeafletMap({ markers, route, onMarkerClick }: Props) {
+/** Ikon cluster: lingkaran berwarna + jumlah titik di dalamnya. */
+function clusterIcon(color: string, count: number) {
+  return L.divIcon({
+    html: `<div style="position:relative;display:grid;place-items:center;width:42px;height:42px">
+      <span style="position:absolute;inset:0;border-radius:9999px;background:${color};opacity:.25"></span>
+      <span style="position:relative;display:grid;place-items:center;width:32px;height:32px;border-radius:9999px;background:${color};color:#fff;font-weight:700;font-size:13px;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35)">${count}</span>
+    </div>`,
+    className: "mbg-cluster",
+    iconSize: [42, 42],
+    iconAnchor: [21, 21],
+  });
+}
+
+function makeClusterGroup(color: string) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (L as any).markerClusterGroup({
+    showCoverageOnHover: false,
+    spiderfyOnMaxZoom: true,
+    maxClusterRadius: 55,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    iconCreateFunction: (c: any) => clusterIcon(color, c.getChildCount()),
+  });
+}
+
+/** Marker dengan clustering, dipisah per jenis: dapur (hijau) & titik (biru). */
+function ClusteredMarkers({
+  markers,
+  onMarkerClick,
+}: {
+  markers: MapMarker[];
+  onMarkerClick?: (id: string) => void;
+}) {
+  const map = useMap();
+  useEffect(() => {
+    const vendorGrp = makeClusterGroup("#1d5c39");
+    const destGrp = makeClusterGroup("#0ea5e9");
+    markers.forEach((m) => {
+      const mk = L.marker([m.lat, m.lng], {
+        icon: dotIcon(m.color ?? "#1d5c39", m.pulse),
+      });
+      if (m.label) mk.bindTooltip(m.label, { direction: "top", offset: [0, -8] });
+      if (onMarkerClick) mk.on("click", () => onMarkerClick(m.id));
+      (m.kind === "vendor" ? vendorGrp : destGrp).addLayer(mk);
+    });
+    map.addLayer(vendorGrp);
+    map.addLayer(destGrp);
+    return () => {
+      map.removeLayer(vendorGrp);
+      map.removeLayer(destGrp);
+    };
+  }, [markers, map, onMarkerClick]);
+  return null;
+}
+
+export function LeafletMap({ markers, route, cluster, onMarkerClick }: Props) {
   // geometri jalan dari OSRM (mengikuti jalan sungguhan)
   const [road, setRoad] = useState<Pt[]>([]);
   const courierRef = useRef<L.Marker>(null);
@@ -181,22 +238,26 @@ export function LeafletMap({ markers, route, onMarkerClick }: Props) {
         />
       )}
 
-      {markers.map((m) => (
-        <Marker
-          key={m.id}
-          position={[m.lat, m.lng]}
-          icon={dotIcon(m.color ?? "#1d5c39", m.pulse)}
-          eventHandlers={
-            onMarkerClick ? { click: () => onMarkerClick(m.id) } : undefined
-          }
-        >
-          {m.label && (
-            <Tooltip direction="top" offset={[0, -8]}>
-              {m.label}
-            </Tooltip>
-          )}
-        </Marker>
-      ))}
+      {cluster ? (
+        <ClusteredMarkers markers={markers} onMarkerClick={onMarkerClick} />
+      ) : (
+        markers.map((m) => (
+          <Marker
+            key={m.id}
+            position={[m.lat, m.lng]}
+            icon={dotIcon(m.color ?? "#1d5c39", m.pulse)}
+            eventHandlers={
+              onMarkerClick ? { click: () => onMarkerClick(m.id) } : undefined
+            }
+          >
+            {m.label && (
+              <Tooltip direction="top" offset={[0, -8]}>
+                {m.label}
+              </Tooltip>
+            )}
+          </Marker>
+        ))
+      )}
 
       {route && road.length > 0 && (
         <Marker ref={courierRef} position={road[0]} icon={courierIcon()}>
