@@ -20,7 +20,7 @@ const AXIS = { fontSize: 11, fill: "#94a3b8" };
 export function TrendArea({
   data,
   dataKey,
-  color = "#059669",
+  color = "#1d5c39",
 }: {
   data: { name: string; value: number }[];
   dataKey?: string;
@@ -53,7 +53,7 @@ export function TrendArea({
   );
 }
 
-const SENT_COLORS = ["#059669", "#94a3b8", "#f43f5e"];
+const SENT_COLORS = ["#1d5c39", "#94a3b8", "#f43f5e"];
 
 export function SentimentDonut({
   data,
@@ -91,7 +91,7 @@ export function SentimentDonut({
 
 export function MiniBars({
   data,
-  color = "#059669",
+  color = "#1d5c39",
 }: {
   data: { name: string; value: number }[];
   color?: string;

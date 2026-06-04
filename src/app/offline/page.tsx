@@ -2,7 +2,7 @@ import Link from "next/link";
 import { WifiOff } from "lucide-react";
 
 export const metadata = {
-  title: "Offline — MBG Monitor",
+  title: "Offline — MB Guardian",
 };
 
 export default function OfflinePage() {

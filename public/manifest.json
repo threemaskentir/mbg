@@ -1,29 +1,29 @@
 {
-  "name": "MBG Monitor — Makan Bergizi Gratis",
-  "short_name": "MBG Monitor",
+  "name": "MB Guardian — Makan Bergizi Gratis",
+  "short_name": "MB Guardian",
   "description": "Sistem monitoring program Makan Bergizi Gratis (mockup interaktif).",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#f6f8fa",
-  "theme_color": "#059669",
+  "background_color": "#f4f7f4",
+  "theme_color": "#154a2e",
   "lang": "id",
   "categories": ["government", "productivity", "utilities"],
   "icons": [
     {
-      "src": "/icons/icon-192.png",
+      "src": "/favicon/web-app-manifest-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/icons/icon-512.png",
+      "src": "/favicon/web-app-manifest-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/icons/icon-maskable-512.png",
+      "src": "/favicon/web-app-manifest-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

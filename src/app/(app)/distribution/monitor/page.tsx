@@ -23,7 +23,7 @@ const STATUS_COLOR: Record<DistributionStatus, string> = {
   scheduled: "#94a3b8",
   enroute: "#0ea5e9",
   arrived: "#f59e0b",
-  done: "#059669",
+  done: "#1d5c39",
 };
 
 export default function MonitorPage() {

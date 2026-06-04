@@ -1,13 +1,12 @@
 import Link from "next/link";
-import { Soup, Home } from "lucide-react";
+import { Home } from "lucide-react";
+import { Logo } from "@/components/Logo";
 
 export default function NotFound() {
   return (
     <main className="grid min-h-screen place-items-center bg-gradient-to-b from-brand-50 to-canvas px-6">
       <div className="card max-w-sm p-8 text-center">
-        <div className="mx-auto grid h-16 w-16 place-items-center rounded-2xl bg-brand-600 text-white">
-          <Soup size={30} />
-        </div>
+        <Logo className="mx-auto h-16 w-16 rounded-2xl ring-1 ring-line" />
         <p className="mt-5 text-5xl font-bold tracking-tight text-brand-700">
           404
         </p>

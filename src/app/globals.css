@@ -2,26 +2,28 @@
 
 /* ===== MBG Design System (Tailwind v4) ===== */
 @theme {
-  --color-brand-50: #ecfdf5;
-  --color-brand-100: #d1fae5;
-  --color-brand-200: #a7f3d0;
-  --color-brand-300: #6ee7b7;
-  --color-brand-400: #34d399;
-  --color-brand-500: #10b981;
-  --color-brand-600: #059669;
-  --color-brand-700: #047857;
-  --color-brand-800: #065f46;
-  --color-brand-900: #064e3b;
+  /* Hijau hutan — mengikuti logo MB Guardian */
+  --color-brand-50: #eff6f1;
+  --color-brand-100: #d6e9dc;
+  --color-brand-200: #aed3bb;
+  --color-brand-300: #7eb593;
+  --color-brand-400: #4d9268;
+  --color-brand-500: #2c7449;
+  --color-brand-600: #1d5c39;
+  --color-brand-700: #154a2e;
+  --color-brand-800: #103a24;
+  --color-brand-900: #0b2c1b;
 
-  --color-accent-400: #fb923c;
-  --color-accent-500: #f97316;
-  --color-accent-600: #ea580c;
+  /* Emas — aksen logo */
+  --color-accent-400: #ecc25c;
+  --color-accent-500: #dba62a;
+  --color-accent-600: #b9871d;
 
-  --color-ink: #0f172a;
+  --color-ink: #102218;
   --color-muted: #64748b;
-  --color-line: #e2e8f0;
+  --color-line: #e3e8e4;
   --color-surface: #ffffff;
-  --color-canvas: #f6f8fa;
+  --color-canvas: #f4f7f4;
 }
 
 :root {

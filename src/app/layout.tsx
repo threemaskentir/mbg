@@ -14,25 +14,29 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://mbg-monitor.local"),
-  title: "MBG Monitor — Makan Bergizi Gratis",
+  metadataBase: new URL("https://mbguardians.netlify.app"),
+  title: "MB Guardian — Makan Bergizi Gratis",
   description:
     "Mockup interaktif sistem monitoring program Makan Bergizi Gratis: registrasi vendor, distribusi, feedback, command center, dan analitik sentimen.",
   manifest: "/manifest.json",
-  applicationName: "MBG Monitor",
+  applicationName: "MB Guardian",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "MBG Monitor",
+    title: "MBGuardians",
   },
   icons: {
-    icon: "/icons/icon-192.png",
-    apple: "/icons/icon-192.png",
+    icon: [
+      { url: "/favicon/favicon-96x96.png", type: "image/png", sizes: "96x96" },
+      { url: "/favicon/favicon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon/favicon.ico",
+    apple: [{ url: "/favicon/apple-touch-icon.png", sizes: "180x180" }],
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#059669",
+  themeColor: "#154a2e",
   width: "device-width",
   initialScale: 1,
 };

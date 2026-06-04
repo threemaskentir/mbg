@@ -14,12 +14,12 @@ const DESTINATIONS: {
   lat: number;
   lng: number;
 }[] = [
-  { name: "SDN Menteng 01", type: "Sekolah", address: "Jl. Menteng Raya", lat: -6.1958, lng: 106.8389 },
-  { name: "Posyandu Melati", type: "Posyandu", address: "Jl. Cikini IV", lat: -6.1944, lng: 106.8412 },
-  { name: "PAUD Tunas Bangsa", type: "PAUD", address: "Jl. Tebet Barat", lat: -6.2376, lng: 106.8456 },
-  { name: "SDN Pluit 05", type: "Sekolah", address: "Jl. Pluit Selatan", lat: -6.1289, lng: 106.7991 },
-  { name: "Ponpes Al-Hidayah", type: "Pesantren", address: "Jl. Condet Raya", lat: -6.2701, lng: 106.8612 },
-  { name: "SDN Cengkareng 03", type: "Sekolah", address: "Jl. Cengkareng Indah", lat: -6.1466, lng: 106.7388 },
+  { name: "SDN Lengkong Wetan 01", type: "Sekolah", address: "Jl. Lengkong Wetan, BSD", lat: -6.2960, lng: 106.6760 },
+  { name: "Posyandu Melati Rawa Buntu", type: "Posyandu", address: "Jl. Rawa Buntu Raya", lat: -6.3150, lng: 106.6700 },
+  { name: "PAUD Tunas Bangsa Pamulang", type: "PAUD", address: "Jl. Pamulang Permai", lat: -6.3420, lng: 106.7390 },
+  { name: "SDN Serpong 03", type: "Sekolah", address: "Jl. Raya Serpong", lat: -6.3170, lng: 106.6650 },
+  { name: "Ponpes Al-Hidayah Ciputat", type: "Pesantren", address: "Jl. Dewi Sartika, Ciputat", lat: -6.3220, lng: 106.7560 },
+  { name: "SDN Pondok Aren 05", type: "Sekolah", address: "Jl. Pondok Aren Raya", lat: -6.2740, lng: 106.7240 },
 ];
 const MENUS = [
   "Nasi + Ayam + Sayur + Buah",
@@ -93,7 +93,7 @@ export default function NewDistributionPage() {
               <div className="flex items-center gap-3 rounded-xl border border-line bg-slate-50 px-3.5 py-2.5">
                 <span
                   className="grid h-8 w-8 shrink-0 place-items-center rounded-lg text-xs font-bold text-white"
-                  style={{ background: actingVendor?.color ?? "#059669" }}
+                  style={{ background: actingVendor?.color ?? "#1d5c39" }}
                 >
                   {(actingVendor?.name ?? "VN").slice(0, 2).toUpperCase()}
                 </span>

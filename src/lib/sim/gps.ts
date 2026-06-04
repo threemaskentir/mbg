@@ -1,7 +1,7 @@
 import type { Distribution } from "@/lib/types";
 
-/** Titik asal dapur pusat (simulasi) — Jakarta Pusat. */
-export const ORIGIN = { lat: -6.1817, lng: 106.8228 };
+/** Titik asal dapur pusat (simulasi) — BSD City, Serpong. */
+export const ORIGIN = { lat: -6.3025, lng: 106.6520 };
 
 export interface LatLng {
   lat: number;

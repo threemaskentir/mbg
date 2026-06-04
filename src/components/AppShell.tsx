@@ -17,12 +17,12 @@ import {
   RotateCcw,
   Download,
   Menu,
-  Soup,
   type LucideIcon,
 } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import { RoleSwitcher } from "@/components/RoleSwitcher";
+import { Logo } from "@/components/Logo";
 import { ROLE_DESC } from "@/lib/roles";
 import type { Role } from "@/lib/types";
 
@@ -113,12 +113,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       >
         <div className="flex h-full flex-col">
           <Link href="/" className="flex items-center gap-2.5 px-5 py-4">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-brand-600 text-white">
-              <Soup size={20} />
-            </span>
+            <Logo className="h-10 w-10 rounded-xl ring-1 ring-line" />
             <span>
               <span className="block text-sm font-bold leading-tight text-ink">
-                MBG Monitor
+                MB Guardian
               </span>
               <span className="block text-[11px] text-slate-400">
                 Makan Bergizi Gratis
@@ -219,7 +217,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           >
             <Menu size={22} />
           </button>
-          <span className="font-bold text-ink">MBG Monitor</span>
+          <Logo className="h-7 w-7 rounded-lg ring-1 ring-line" />
+          <span className="font-bold text-ink">MB Guardian</span>
         </header>
 
         <div className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:px-6 lg:px-8">

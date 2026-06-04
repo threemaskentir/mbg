@@ -201,8 +201,8 @@ export const useStore = create<MBGState>()(
       },
     }),
     {
-      name: "mbg-monitor-store-v2",
-      version: 2,
+      name: "mbg-monitor-store-v3",
+      version: 3,
       // Jangan hydrate otomatis saat store dibuat (localStorage dibaca sinkron
       // di klien → menyebabkan mismatch dengan HTML server). Rehydrate manual
       // setelah mount via <StoreHydrator />.

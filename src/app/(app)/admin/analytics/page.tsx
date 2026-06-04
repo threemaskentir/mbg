@@ -99,7 +99,7 @@ export default function AnalyticsPage() {
               <>
                 <SentimentDonut data={donut} />
                 <div className="mt-2 flex justify-center gap-4 text-xs">
-                  <Legend color="#059669" label={`Positif ${counts.positive}`} />
+                  <Legend color="#1d5c39" label={`Positif ${counts.positive}`} />
                   <Legend color="#94a3b8" label={`Netral ${counts.neutral}`} />
                   <Legend color="#f43f5e" label={`Negatif ${counts.negative}`} />
                 </div>

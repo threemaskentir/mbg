@@ -2,17 +2,15 @@
 
 import Link from "next/link";
 import {
-  Soup,
   FilePlus2,
   Truck,
   MessageSquareHeart,
   Gauge,
   Brain,
   ArrowRight,
-  Smartphone,
-  Wifi,
   Sparkles,
 } from "lucide-react";
+import { Logo } from "@/components/Logo";
 
 const MODULES = [
   {
@@ -68,11 +66,9 @@ export default function Home() {
             <Sparkles size={14} /> Mockup Interaktif • Data Dummy
           </div>
           <div className="flex items-center gap-3">
-            <span className="grid h-12 w-12 place-items-center rounded-2xl bg-white/15 backdrop-blur">
-              <Soup size={26} />
-            </span>
+            <Logo className="h-14 w-14 rounded-2xl shadow-lg ring-2 ring-white/30" />
             <h1 className="text-3xl font-bold tracking-tight sm:text-5xl">
-              MBG Monitor
+              MB Guardian
             </h1>
           </div>
           <p className="mt-4 max-w-2xl text-base text-white sm:text-lg">
@@ -93,17 +89,6 @@ export default function Home() {
             >
               <FilePlus2 size={18} /> Daftarkan Vendor
             </Link>
-          </div>
-          <div className="mt-8 flex flex-wrap gap-5 text-sm text-white">
-            <span className="inline-flex items-center gap-2">
-              <Smartphone size={16} /> Mobile-friendly
-            </span>
-            <span className="inline-flex items-center gap-2">
-              <Wifi size={16} /> PWA — installable &amp; offline shell
-            </span>
-            <span className="inline-flex items-center gap-2">
-              <Sparkles size={16} /> UI/UX modern
-            </span>
           </div>
         </div>
       </section>

@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { use } from "react";
 import Link from "next/link";
 import {
   Navigation,
@@ -18,7 +18,7 @@ import { DistStatusBadge, SimTag } from "@/components/badges";
 import { MapCanvas } from "@/components/MapCanvas";
 import { PhotoUpload } from "@/components/PhotoUpload";
 import { useStore, useHydrated } from "@/lib/store";
-import { ORIGIN, interpolate, progressForStatus, etaMinutes } from "@/lib/sim/gps";
+import { ORIGIN, etaMinutes } from "@/lib/sim/gps";
 import { formatDate, formatNumber } from "@/lib/utils";
 
 export default function TrackPage({
@@ -38,14 +38,6 @@ export default function TrackPage({
   const checkOut = useStore((s) => s.checkOut);
   const addPhoto = useStore((s) => s.addPhoto);
 
-  // animated courier progress while en route (simulasi GPS)
-  const [pulse, setPulse] = useState(0);
-  useEffect(() => {
-    if (dist?.status !== "enroute") return;
-    const t = setInterval(() => setPulse((p) => (p + 0.02) % 1), 600);
-    return () => clearInterval(t);
-  }, [dist?.status]);
-
   if (!hydrated)
     return <div className="py-20 text-center text-slate-400">Memuat…</div>;
   if (!dist)
@@ -57,13 +49,6 @@ export default function TrackPage({
         </Link>
       </div>
     );
-
-  const baseProgress = progressForStatus(dist);
-  const progress =
-    dist.status === "enroute"
-      ? 0.4 + 0.2 * Math.sin(pulse * Math.PI * 2)
-      : baseProgress;
-  const courier = interpolate(ORIGIN, { lat: dist.lat, lng: dist.lng }, progress);
 
   return (
     <div>
@@ -103,7 +88,7 @@ export default function TrackPage({
                   id: "dest",
                   lat: dist.lat,
                   lng: dist.lng,
-                  color: "#059669",
+                  color: "#1d5c39",
                   label: dist.destination,
                   pulse: dist.status === "arrived" || dist.status === "done",
                   kind: "dest",
@@ -112,7 +97,8 @@ export default function TrackPage({
               route={{
                 from: ORIGIN,
                 to: { lat: dist.lat, lng: dist.lng },
-                courier,
+                animate: dist.status === "enroute",
+                progress: dist.status === "scheduled" ? 0 : 1,
               }}
             />
             <div className="mt-3 flex items-center gap-2 text-xs text-slate-500">

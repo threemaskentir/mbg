@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils";
 import type { VendorDoc } from "@/lib/types";
 
 const STEPS = ["Data Usaha", "PIC & Lokasi", "Dokumen + OCR", "Review"];
-const COLORS = ["#059669", "#0ea5e9", "#f97316", "#8b5cf6", "#ec4899", "#14b8a6"];
+const COLORS = ["#1d5c39", "#0ea5e9", "#f97316", "#8b5cf6", "#ec4899", "#14b8a6"];
 
 const DOC_DEFS: { type: VendorDoc["type"]; label: string }[] = [
   { type: "NIB", label: "Nomor Induk Berusaha (NIB)" },
@@ -41,7 +41,7 @@ export default function VendorRegisterPage() {
     phone: "",
     email: "",
     address: "",
-    city: "Jakarta Pusat",
+    city: "Serpong",
     capacity: 500,
   });
   const [docs, setDocs] = useState<VendorDoc[]>(
@@ -77,8 +77,8 @@ export default function VendorRegisterPage() {
   function submit() {
     const id = addVendor({
       ...form,
-      lat: -6.18 + (Math.random() - 0.5) * 0.18,
-      lng: 106.82 + (Math.random() - 0.5) * 0.18,
+      lat: -6.30 + (Math.random() - 0.5) * 0.1,
+      lng: 106.67 + (Math.random() - 0.5) * 0.12,
       color: COLORS[Math.floor(Math.random() * COLORS.length)],
       docs,
       ocr: { nib: ocr?.nib ?? "", npwp: ocr?.npwp ?? "" },
@@ -221,11 +221,13 @@ export default function VendorRegisterPage() {
                 onChange={(e) => set("city", e.target.value)}
               >
                 {[
-                  "Jakarta Pusat",
-                  "Jakarta Selatan",
-                  "Jakarta Timur",
-                  "Jakarta Barat",
-                  "Jakarta Utara",
+                  "Serpong",
+                  "Serpong Utara",
+                  "Pondok Aren",
+                  "Ciputat",
+                  "Ciputat Timur",
+                  "Pamulang",
+                  "Setu",
                 ].map((c) => (
                   <option key={c}>{c}</option>
                 ))}

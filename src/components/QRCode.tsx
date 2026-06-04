@@ -9,7 +9,7 @@ export function QR({ value, size = 180 }: { value: string; size?: number }) {
     QRCode.toDataURL(value, {
       width: size,
       margin: 1,
-      color: { dark: "#064e3b", light: "#ffffff" },
+      color: { dark: "#0b2c1b", light: "#ffffff" },
     }).then(setUrl);
   }, [value, size]);
 

@@ -2,7 +2,8 @@
 
 import { use, useEffect, useState } from "react";
 import Link from "next/link";
-import { Soup, Heart, CheckCircle2, MapPin } from "lucide-react";
+import { Heart, CheckCircle2, MapPin } from "lucide-react";
+import { Logo } from "@/components/Logo";
 import { StarInput } from "@/components/StarRating";
 import { PhotoUpload } from "@/components/PhotoUpload";
 import { SentimentBadge, SimTag } from "@/components/badges";
@@ -72,10 +73,8 @@ export default function FeedbackPage({
       <div className="mx-auto max-w-md px-4 py-8">
         {/* Brand header */}
         <div className="mb-5 flex items-center justify-center gap-2 text-brand-700">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-brand-600 text-white">
-            <Soup size={18} />
-          </span>
-          <span className="font-bold">MBG Monitor</span>
+          <Logo className="h-9 w-9 rounded-xl ring-1 ring-line" />
+          <span className="font-bold">MB Guardian</span>
         </div>
 
         {submitted ? (

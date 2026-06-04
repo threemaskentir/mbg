@@ -66,7 +66,7 @@ export default function CommandCenterPage() {
       id: `v-${v.id}`,
       lat: v.lat,
       lng: v.lng,
-      color: "#059669",
+      color: "#1d5c39",
       label: v.name,
       kind: "vendor" as const,
     })),
